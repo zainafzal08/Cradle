@@ -4,6 +4,10 @@ Vue.component('nav-elem', {
 					{{ page.title }}
 				</a>`,
 	data: function(){
+		var r = parseInt(this.page.col.substr(1,2),16);
+		var g = parseInt(this.page.col.substr(3,2),16);
+		var b = parseInt(this.page.col.substr(5,2),16);
+		var activeCol = "rgba("+r+","+g+","+b+",0.4)";
 		return {
 			navElemStyle: {
 				color: "#EBEBEB",
@@ -11,14 +15,22 @@ Vue.component('nav-elem', {
 				borderLeftWidth: "5px",
 				borderLeftColor: this.page.col
 			},
-			backColor: ""
+			backColor: this.page.active ? this.page.col:""
 		};
 	},
 	methods: {
 		trigger: function(){
-			this.backColor = this.page.col;
+			if(this.page.active)
+				return
+			var r = parseInt(this.page.col.substr(1,2),16);
+			var g = parseInt(this.page.col.substr(3,2),16);
+			var b = parseInt(this.page.col.substr(5,2),16);
+			var activeCol = "rgba("+r+","+g+","+b+",0.4)";
+			this.backColor = activeCol;
 		},
 		untrigger: function(){
+			if(this.page.active)
+				return
 			this.backColor = "";
 		}
 	}
@@ -57,8 +69,10 @@ var app = new Vue({
 	data: {
 		course: "COMP1111",
 		pages: [
-			{id: "page_1", title: "Labs", col:"#d62c1a"},
-			{id: "page_2",title: "Lectures", col:"#2077b2"}
+			{id: "page_1", title: "Labs", col:"#d62c1a", active:true},
+			{id: "page_2",title: "Lectures", col:"#2077b2", active:false},
+			{id: "page_3",title: "Tutorials", col:"#f39c12", active:false},
+			{id: "page_4",title: "Consults", col:"#18bc9c", active:false}
 		]
 	}
 });
